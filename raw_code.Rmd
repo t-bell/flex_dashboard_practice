@@ -1,0 +1,20 @@
+---
+title: "flex dashboard"
+output: html_document
+---
+```{r setup, include=FALSE}
+## install packages if necessary
+list.of.packages <- c("janitor", "ggplot2", "dplyr", "lubridate", "zoo", "forcats", "ggthemes", "knitr", "rmarkdown", "flexdashboard")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+## load packages
+library(janitor)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(zoo)
+library(forcats)
+library(ggthemes)
+library(knitr)
+library(flexdashboard)
