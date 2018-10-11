@@ -63,7 +63,7 @@ s <- ggplot(pref) +
                 panel.grid.minor = element_blank(),
                 axis.text.x = element_blank() 
   )
-p
+s
 ```
 
 Column {data-width=350}
@@ -121,11 +121,63 @@ p <- ggplot(pref) +
                 axis.text.x = element_blank() 
   )
 p
+```
+
+-----------------------------------------------------------------------
 
 ### Chart C
 
-```{r}
-
+```{r meat-visualize, warning=FALSE}
+## generate the plot 
+p <- ggplot(pref) +
+  ## specify you want to generate a bar chart
+  geom_bar(aes(x = steak_pref, y = prop, fill = steak_pref),
+                stat = 'identity', 
+                width = 0.7) + 
+  ## this adds text labels (you don't have to change anything here)
+  geom_text(aes(label = paste0(as.integer(prop*100),"%"),
+                x = steak_pref,
+                y = prop), 
+            stat= "identity", 
+            hjust = -0.2, 
+            size = 5,
+            color = "grey40") +
+  ## flip coordinates to make horizontal box plot
+  coord_flip() +
+  ## change the colors of the bars
+  scale_fill_manual(values = c("#370B01", 
+                           "#70402C",
+                           "#955732", 
+                           "#B36153",
+                           "#B5413F")) +
+  ## change the scale/labels of the steak-wellness variable (x-axis)
+  scale_x_discrete(limits = levels(fct_rev(pref$steak_pref)),
+                labels = c("Well", 
+                           "Medium Well" = "Medium-well",
+                           "Medium",
+                           "Medium rare"="Medium-rare",
+                           "Rare")) +
+  ## change the scale/lables of the percent axis (y-axis)
+  scale_y_discrete(labels = scales::percent, 
+                expand = c(mult = c(0,0), 
+                           add = c(0,0.035))) +
+  ## change the title, subtitle, and caption
+  labs(title="'How Do You Like Your Steak Prepared?'", 
+                subtitle="From a survey of 432 steak-eating Americans",
+                caption="FiveThirtyEight: Surveymonkey") +
+  ## change the theme (use ggthemes)
+  theme_gray() +
+  ## fine tune the theme
+  theme(axis.text = element_text(size = 14), 
+                title = element_text(size = 16), 
+                legend.position="none", 
+                plot.caption=element_text(size = 12), 
+                panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(),
+                axis.text.x = element_blank() 
+  )
+p
 ```
+
 
 

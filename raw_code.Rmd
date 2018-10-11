@@ -18,3 +18,32 @@ library(forcats)
 library(ggthemes)
 library(knitr)
 library(flexdashboard)
+```
+
+```{r read in data, echo = FALSE}
+## read in the data
+steak <- read.csv("/cloud/project/steak-risk-survey.csv", stringsAsFactors = FALSE) %>%
+  ## remove first row which just includes the word "Response" in each column
+  slice(2:n())
+```
+
+```{r how you like data}
+## wrangle the steak data set
+pref <- steak %>% 
+  mutate(steak_pref = factor(How.do.you.like.your.steak.prepared.,
+                             levels = c("Well",
+                                        "Medium Well",
+                                        "Medium",
+                                        "Medium rare",
+                                        "Rare"))) %>% 
+  filter(steak_pref != "") %>% 
+  group_by(steak_pref) %>% 
+  summarise(n = n()) %>%
+  mutate(prop = n / sum(n))
+
+print(pref)
+
+```
+
+
+
